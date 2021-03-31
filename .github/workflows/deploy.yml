@@ -20,7 +20,7 @@ jobs:
       - shell: bash
         env:
           LIGHTSAIL_KEY: ${{ secrets.LIGHTSAIL_KEY }}
-          BOT_TOKEN: ${{BOT_TOKEN}}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           echo "$LIGHTSAIL_KEY" > LightsailDefaultKey-us-west-2.pem
           chmod 600 LightsailDefaultKey-us-west-2.pem
