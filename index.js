@@ -1,10 +1,10 @@
 // Read environment variables in. One of these is expected to be the
 // BOT_TOKEN from discord.
 const dotenv = require('dotenv');
-dotenv.config();
-
+const http = require('http');
 const Discord = require("discord.js");
 
+dotenv.config();
 const client = new Discord.Client();
 const prefix = "!";
 
@@ -22,5 +22,19 @@ client.on("message", function(message) {
     if (command == "ping") {
 	const timeTaken = Date.now() - message.createdTimestamp;
 	message.reply(`pong - latency: (${timeTaken}ms)`);
+    }
+
+    if (command == "btc") {
+	http.get({
+            host: 'api.coindesk.com',
+            path: '/v1/bpi/currentprice.json'
+        }, function(response) {
+            var body = '';
+            response.on('data', function(d) { body += d; });
+            response.on('end', function() {
+                var parsed = JSON.parse(body);
+		message.reply(`$${parsed.bpi.USD.rate}`)
+            });
+	});
     }
 })
