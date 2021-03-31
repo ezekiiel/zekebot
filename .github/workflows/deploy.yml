@@ -24,4 +24,4 @@ jobs:
         run: |
           echo "$LIGHTSAIL_KEY" > LightsailDefaultKey-us-west-2.pem
           chmod 600 LightsailDefaultKey-us-west-2.pem
-          ssh -o StrictHostKeyChecking=no -i LightsailDefaultKey-us-west-2.pem admin@54.213.145.12 "cd zekebot; echo 'BOT_TOKEN=$BOT_TOKEN' > .env; sudo systemctl restart discord.service"
+          ssh -o StrictHostKeyChecking=no -i LightsailDefaultKey-us-west-2.pem admin@54.213.145.12 "cd zekebot; git pull; npm install; echo 'BOT_TOKEN=$BOT_TOKEN' > .env; sudo systemctl restart discord.service"
