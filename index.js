@@ -8,6 +8,21 @@ dotenv.config();
 const client = new Discord.Client();
 const prefix = "!";
 
+function logLatency(message) {
+    const timeTaken = Date.now() - message.createdTimestamp;
+    // Log our data with the grapher dashboard
+    http.get({
+	host: 'negativefour.com',
+	path: `/discord_bot_latency/${timeTaken}`
+    }, (response) => {
+	var res = ''
+	response.on('data',
+		    (data) => res += data);
+	response.on('end',
+		    () => console.log(`-> grapher: ${res}`));
+    });
+}
+
 client.login(process.env.BOT_TOKEN)
 
 client.on("message", function(message) {
@@ -22,6 +37,7 @@ client.on("message", function(message) {
     if (command == "ping") {
 	const timeTaken = Date.now() - message.createdTimestamp;
 	message.reply(`pong - latency: (${timeTaken}ms)`);
+	logLatency(message);
     }
 
     if (command == "btc") {
@@ -36,5 +52,6 @@ client.on("message", function(message) {
 		message.reply(`$${parsed.bpi.USD.rate}`)
             });
 	});
+	logLatency(message)
     }
 })
