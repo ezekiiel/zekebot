@@ -1,5 +1,9 @@
+// Read environment variables in. One of these is expected to be the
+// BOT_TOKEN from discord.
+const dotenv = require('dotenv');
+dotenv.config();
+
 const Discord = require("discord.js");
-const config = require("./config.json");
 
 const client = new Discord.Client();
 const prefix = "!";
@@ -7,6 +11,7 @@ const prefix = "!";
 client.login(process.env.BOT_TOKEN)
 
 client.on("message", function(message) {
+    // Don't respond to messages from bots
     if (message.author.bot) return;
     if (!message.content.startsWith(prefix)) return;
 
